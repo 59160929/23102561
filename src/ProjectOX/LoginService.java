@@ -39,4 +39,11 @@ public class LoginService {
         return result;
 
     }
+     public static boolean checkNull(String username, String Password) {
+        if (username.equals("")|| Password.equals("")== true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

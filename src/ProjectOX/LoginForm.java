@@ -224,34 +224,38 @@ public class LoginForm extends javax.swing.JFrame {
         new Registerform().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Register1ActionPerformed
-    public boolean IsUserMatch() throws SQLException {
-        boolean Result = Usernamefield.getText().equals(new String(Passwordfield.getPassword()));
-        return Result;
 
-    }
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
         try {
 
-            if (LoginService.getuser(Usernamefield.getText(),String.valueOf(Passwordfield.getPassword())) == true) {
-                if (IsUserMatch() == true);
-                {
-                    JOptionPane.showMessageDialog(this, "ลงชื่อเข้าใจสำเร็จ");
-                }
-                setVisible(false);
-                Lobbyform mf = new Lobbyform();
-                mf.setVisible(true);
+            if (LoginService.getuser(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword())) == true) {
+
+                JOptionPane.showMessageDialog(this, "ลงชื่อเข้าใจสำเร็จ");
+
+                SwapScreen();
             } else {
-                JOptionPane.showMessageDialog(this, "Username หรือ Password ผิดพลาด");
-                Usernamefield.setText("");
-                Passwordfield.setText("");
+                if (LoginService.checkNull(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword())) == true) {
+                    JOptionPane.showMessageDialog(null, "กรุณากรอกข้อมูลให้ครบ !");
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Username หรือ Password ผิดพลาด");
+                    Usernamefield.setText("");
+                    Passwordfield.setText("");
+                }
             }
         } catch (SQLException ex) {
 
         }
 
     }//GEN-LAST:event_loginActionPerformed
+    private void SwapScreen() {
+
+        setVisible(false);
+        Lobbyform mf = new Lobbyform();
+        mf.setVisible(true);
+    }
 
     public static void main(String args[]) {
 

@@ -268,14 +268,12 @@ public class Registerform extends javax.swing.JFrame {
         new LoginForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Register1ActionPerformed
-
-    boolean russ = false;
-
-
+    
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+
         PreparedStatement pst;
 
-        if (RegisterService.checkNull(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword()),String.valueOf(Repasswordfield.getPassword())) == true) {
+        if (RegisterService.checkNull(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword()), String.valueOf(Repasswordfield.getPassword())) == true) {
             JOptionPane.showMessageDialog(null, "กรุณากรอกข้อมูลให้ครบ !");
 
         } else {
@@ -290,11 +288,13 @@ public class Registerform extends javax.swing.JFrame {
 
                     try {
 
-
                         if (RegisterService.checkUsernameExist(Usernamefield.getText()) == true) {
                             JOptionPane.showMessageDialog(null, "ชื่อผู้ใช้งานซ้ำ !");
                         } else {
-                            InsertUser(); //insert to table
+                            RegisterService.InsertUser(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword()));
+                            JOptionPane.showMessageDialog(null, "ลงทะเบียนสำเร็จ !");
+
+
                             SwapScreen();   //change screen to 
                         }
 
@@ -313,7 +313,6 @@ public class Registerform extends javax.swing.JFrame {
 
     }//GEN-LAST:event_RegisterActionPerformed
 
-
     private void ClearFill() {
         Usernamefield.setText("");
         Passwordfield.setText("");
@@ -325,33 +324,6 @@ public class Registerform extends javax.swing.JFrame {
         Lobbyform go = new Lobbyform();
         go.setVisible(true);
         setVisible(false);
-    }
-
-    private void InsertUser() {
-        PreparedStatement pst;
-        try {
-            String serverName = "db144.hostinger.in.th";
-            String mydatabase = "u572797458_soft";
-            String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
-            String username = "u572797458_soft";
-            String password = "password0880";
-            Connection connection = DriverManager.getConnection(url, username, password);
-            connection.createStatement();
-
-            String sql = "Insert into Username(Username,Password) values (?,?)";
-
-            pst = connection.prepareStatement(sql);
-            pst.setString(1, Usernamefield.getText());
-            pst.setString(2, new String(Passwordfield.getPassword()));
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "ลงทะเบียนสำเร็จ !");
-            Usernamefield.setText("");
-            Passwordfield.setText("");
-            Repasswordfield.setText("");
-
-        } catch (Exception String) {
-
-        }
     }
 
     /**
