@@ -18,9 +18,7 @@ import net.proteanit.sql.DbUtils;
  * @author Admin
  */
 public class Lobbyform extends javax.swing.JFrame {
-private static final String USERNAMEE= "u572797458_soft";
-private static final String PASSWORDD= "password0880";
-private static final String CONN_STRING="jdbc:mysql://db144.hostinger.in.th/u572797458_soft";
+
 PreparedStatement pst; 
 /**
      * Creates new form Lobby

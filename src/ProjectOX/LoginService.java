@@ -17,12 +17,6 @@ import java.sql.SQLException;
  */
 public class LoginService {
 
-    static String serverName = "db144.hostinger.in.th";
-    static String mydatabase = "u572797458_soft";
-    static String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
-    static String username = "u572797458_soft";
-    static String password = "password0880";
-
     public static boolean getuser(String username, String password) throws SQLException {
         PreparedStatement pst;
         Connection connection;

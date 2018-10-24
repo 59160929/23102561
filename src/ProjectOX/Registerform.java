@@ -269,6 +269,7 @@ public class Registerform extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_Register1ActionPerformed
     
+    
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
 
         PreparedStatement pst;
@@ -277,11 +278,11 @@ public class Registerform extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "กรุณากรอกข้อมูลให้ครบ !");
 
         } else {
-            if (Usernamefield.getText().length() < 5) {
+            if (RegisterService.UsernameLength(Usernamefield.getText()) ==true) {
                 JOptionPane.showMessageDialog(null, "ชื่อผู้ใช้งานต้องมีไม่น้อยกว่า 5 ตัว !");
 
             } else {
-                if (new String(Passwordfield.getPassword()).length() < 8) {
+                if (RegisterService.PasswordLenght(new String(Passwordfield.getPassword()))==true) {
                     JOptionPane.showMessageDialog(null, "รหัสผ่านต้องมีไม่น้อยกว่า 8 ตัว !");
 
                 } else if (new String(Passwordfield.getPassword()).equals(new String(Repasswordfield.getPassword()))) {
@@ -293,9 +294,7 @@ public class Registerform extends javax.swing.JFrame {
                         } else {
                             RegisterService.InsertUser(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword()));
                             JOptionPane.showMessageDialog(null, "ลงทะเบียนสำเร็จ !");
-
-
-                            SwapScreen();   //change screen to 
+                            openLoginForm();  
                         }
 
                     } catch (Exception String) {
@@ -319,7 +318,7 @@ public class Registerform extends javax.swing.JFrame {
         Repasswordfield.setText("");
     }
 
-    private void SwapScreen() {
+    private void openLoginForm() {
 
         Lobbyform go = new Lobbyform();
         go.setVisible(true);

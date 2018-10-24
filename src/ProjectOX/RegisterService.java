@@ -15,47 +15,40 @@ import java.sql.SQLException;
  *
  * @author 59160929
  */
-
 public class RegisterService {
 
- 
-
     public static boolean checkNull(String username, String Password, String RePassword) {
-        if (username.equals("")|| Password.equals("")|| RePassword.equals("") == true) {
+          if (username.equals("")|| Password.equals("")|| RePassword.equals("") == true) {
             return true;
         } else {
             return false;
         }
     }
-    public static boolean checkUsernameExist(String username)  throws SQLException {
-      PreparedStatement pst;
-        Connection connection;
 
-        connection = DriverManager.getConnection(db.url, db.username, db.password);
-        connection.createStatement();
+    public static boolean checkUsernameExist(String username) throws SQLException {
 
-        String sql = "SELECT Username FROM u572797458_soft.Username where Username=?";
-        pst = connection.prepareStatement(sql);
-        pst.setString(1, username);
-        ResultSet rs = pst.executeQuery();
-        boolean result = rs.next();
-        return result;
+        return UserDao.checkUsernameExist(username);
+    }
+
+    public static boolean InsertUser(String username, String password) throws SQLException {
+
+        return UserDao.InsertUser(username, password);
+
+    }
+    public static boolean UsernameLength(String username){
+        int lenght = username.length();
+        if(lenght < 5 ){
+            return true;
+        }else 
+            return false;
+    
+    }
+    public static boolean PasswordLenght(String password){
+        int lenght = password.length();
+        if(lenght < 8 ){
+            return true;
+        }else 
+            return false;
     }
     
-      public static boolean InsertUser(String username,String password)  throws SQLException {
-            PreparedStatement pst;
-        Connection connection;
-             connection = DriverManager.getConnection(db.url, db.username, db.password);
-        connection.createStatement();
-          
-            String sql ="Insert into Username(Username,Password) values (?,?)";
-
-            pst=connection.prepareStatement(sql);
-            pst.setString(1, username);
-            pst.setString(2, password);
-        boolean rs = pst.execute();
-        return rs;
-     
-    }
-   
 }
