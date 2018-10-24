@@ -43,18 +43,19 @@ public class RegisterService {
     }
     
       public static boolean InsertUser(String username,String password)  throws SQLException {
-      PreparedStatement pst;
+            PreparedStatement pst;
         Connection connection;
-
-        connection = DriverManager.getConnection(db.url, db.username, db.password);
+             connection = DriverManager.getConnection(db.url, db.username, db.password);
         connection.createStatement();
+          
+            String sql ="Insert into Username(Username,Password) values (?,?)";
 
-        String sql = "SELECT Username FROM u572797458_soft.Username where Username=?";
-        pst = connection.prepareStatement(sql);
-        pst.setString(1, username);
-        ResultSet rs = pst.executeQuery();
-        boolean result = rs.next();
-        return result;
+            pst=connection.prepareStatement(sql);
+            pst.setString(1, username);
+            pst.setString(2, password);
+        boolean rs = pst.execute();
+        return rs;
+     
     }
    
 }
