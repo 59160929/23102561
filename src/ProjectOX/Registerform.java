@@ -318,7 +318,7 @@ public class Registerform extends javax.swing.JFrame {
         Repasswordfield.setText("");
     }
 
-    private void openLoginForm() {
+    private void openLoginForm() throws SQLException {
 
         Lobbyform go = new Lobbyform();
         go.setVisible(true);

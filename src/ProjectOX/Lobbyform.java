@@ -9,8 +9,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -19,18 +27,19 @@ import net.proteanit.sql.DbUtils;
  */
 public class Lobbyform extends javax.swing.JFrame {
 
-PreparedStatement pst; 
-/**
+    /**
      * Creates new form Lobby
      */
-    public Lobbyform() {
+    public Lobbyform() throws SQLException {
         PreparedStatement pst;
         initComponents();
-         ShowRoom();
-        
+        ShowIDRoom();
+
     }
-    public void  ShowRoom(){
-        try{
+
+    public void ShowIDRoom() throws SQLException {
+        ArrayList result = new ArrayList();
+        try {
             String serverName = "db144.hostinger.in.th";
             String mydatabase = "u572797458_soft";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
@@ -38,16 +47,88 @@ PreparedStatement pst;
             String password = "password0880";
             Connection connection = DriverManager.getConnection(url, username, password);
             connection.createStatement();
-            String sql="SELECT idroom,NameRoom,StatusRoom  FROM room;";
-            pst=connection.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-           table.setModel(DbUtils.resultSetToTableModel(rs));
-            
-        }catch(Exception e){
-            
+
+            //String sql="SELECT idroom  FROM room ;";
+            String sql = "SELECT idroom,NameRoom,StatusRoom  FROM room ;";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            int columnCount = rs.getMetaData().getColumnCount();
+            DefaultListModel listModel = new DefaultListModel();
+            String idroom = "";
+            String nameroom = "";
+            String statusroom = "";
+            int row = 0;
+            while (rs.next()) {
+                result.add(rs.getString("idroom"));
+                if (rs.getString("idroom").length() == 1) {
+                    idroom = "                                                         ";
+                    if (rs.getString("NameRoom").length() == 12) {
+                        nameroom = "                                             ";
+                    } else if (rs.getString("NameRoom").length() == 11) {
+                        nameroom = "                                                ";
+                    } else if (rs.getString("NameRoom").length() == 10) {
+                        nameroom = "                                              ";
+                    } else if (rs.getString("NameRoom").length() == 9) {
+                        nameroom = "                                                 ";
+                    } else if (rs.getString("NameRoom").length() == 8) {
+                        nameroom = "                                                   ";
+                    } else if (rs.getString("NameRoom").length() == 7) {
+                        nameroom = "                                                       ";
+                    } else if (rs.getString("NameRoom").length() == 6) {
+                        nameroom = "                                                      ";
+                    } else if (rs.getString("NameRoom").length() == 5) {
+                        nameroom = "                                                        ";
+                    } else if (rs.getString("NameRoom").length() == 4) {
+                        nameroom = "                                                           ";
+                    } else if (rs.getString("NameRoom").length() == 3) {
+                        nameroom = "                                                              ";
+                    } else if (rs.getString("NameRoom").length() == 2) {
+                        nameroom = "                                                             ";
+                    }
+
+                } else if (rs.getString("idroom").length() == 2) {
+                    idroom = "                                                       ";
+                    if (rs.getString("NameRoom").length() == 12) {
+                        nameroom = "                                              ";
+                    } else if (rs.getString("NameRoom").length() == 11) {
+                        nameroom = "                                                ";
+                    } else if (rs.getString("NameRoom").length() == 10) {
+                        nameroom = "                                              ";
+                    } else if (rs.getString("NameRoom").length() == 9) {
+                        nameroom = "                                                   ";
+                    } else if (rs.getString("NameRoom").length() == 8) {
+                        nameroom = "                                                    ";
+                    } else if (rs.getString("NameRoom").length() == 7) {
+                        nameroom = "                                                    ";
+                    } else if (rs.getString("NameRoom").length() == 6) {
+                        nameroom = "                                                     ";
+                    } else if (rs.getString("NameRoom").length() == 5) {
+                        nameroom = "                                                         ";
+                    } else if (rs.getString("NameRoom").length() == 4) {
+                        nameroom = "                                                           ";
+                    } else if (rs.getString("NameRoom").length() == 3) {
+                        nameroom = "                                                              ";
+                    } else if (rs.getString("NameRoom").length() == 2) {
+                        nameroom = "                                                            ";
+                    }
+                }
+
+                listModel.addElement(" " + rs.getString("idroom") + idroom + rs.getString("NameRoom") + nameroom + rs.getString("StatusRoom"));
+
+            }
+
+//            for(int i=0;i<result.size();i++)
+//            {
+//                //result.add(rs.getString("idroom"));
+//                listModel.addElement(result.get(i));
+//                
+//            }
+            listRoom.setModel(listModel);
+
+        } catch (Exception e) {
+
         }
-        
-     
+
     }
 
     /**
@@ -59,70 +140,23 @@ PreparedStatement pst;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Exit = new javax.swing.JButton();
+        exitbtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         profilebtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        createroombtn = new javax.swing.JButton();
+        joinroombtn = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listRoom = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1028, 982));
         getContentPane().setLayout(null);
-
-        table.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(table);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(160, 160, 790, 390);
 
         jPanel1.setBackground(new java.awt.Color(13, 71, 161));
         jPanel1.setRequestFocusEnabled(false);
@@ -134,17 +168,17 @@ PreparedStatement pst;
         jPanel1.add(jLabel1);
         jLabel1.setBounds(30, 10, 150, 70);
 
-        Exit.setBackground(new java.awt.Color(230, 81, 0));
-        Exit.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        Exit.setText("Logout");
-        Exit.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        Exit.addActionListener(new java.awt.event.ActionListener() {
+        exitbtn.setBackground(new java.awt.Color(230, 81, 0));
+        exitbtn.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        exitbtn.setText("Logout");
+        exitbtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        exitbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExitActionPerformed(evt);
+                exitbtnActionPerformed(evt);
             }
         });
-        jPanel1.add(Exit);
-        Exit.setBounds(760, 10, 210, 80);
+        jPanel1.add(exitbtn);
+        exitbtn.setBounds(760, 10, 210, 80);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1030, 110);
@@ -163,7 +197,7 @@ PreparedStatement pst;
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 110, 0, 870);
+        jPanel2.setBounds(0, 110, 100, 870);
 
         jPanel3.setBackground(new java.awt.Color(0, 77, 64));
         jPanel3.setLayout(null);
@@ -178,25 +212,52 @@ PreparedStatement pst;
         jPanel3.add(profilebtn);
         profilebtn.setBounds(130, 720, 220, 80);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jButton3.setText("Create Room");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        createroombtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        createroombtn.setText("Create Room");
+        createroombtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                createroombtnActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton3);
-        jButton3.setBounds(570, 720, 200, 80);
+        jPanel3.add(createroombtn);
+        createroombtn.setBounds(570, 720, 200, 80);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jButton4.setText("เข้าร่วมห้อง");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        joinroombtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        joinroombtn.setText("เข้าร่วมห้อง");
+        joinroombtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                joinroombtnActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4);
-        jButton4.setBounds(370, 720, 180, 80);
+        jPanel3.add(joinroombtn);
+        joinroombtn.setBounds(370, 720, 180, 80);
+
+        listRoom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jScrollPane2.setViewportView(listRoom);
+
+        jPanel3.add(jScrollPane2);
+        jScrollPane2.setBounds(120, 90, 610, 338);
+
+        jLabel2.setBackground(new java.awt.Color(102, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Status");
+        jPanel3.add(jLabel2);
+        jLabel2.setBounds(620, 30, 110, 30);
+
+        jLabel3.setBackground(new java.awt.Color(102, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("IDRoom");
+        jPanel3.add(jLabel3);
+        jLabel3.setBounds(120, 30, 110, 30);
+
+        jLabel4.setBackground(new java.awt.Color(102, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("NameRoom");
+        jPanel3.add(jLabel4);
+        jLabel4.setBounds(360, 30, 110, 30);
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(100, 110, 930, 870);
@@ -205,39 +266,36 @@ PreparedStatement pst;
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
-    
-        JDialog.setDefaultLookAndFeelDecorated(true);
-        int response = JOptionPane.showConfirmDialog(null,"คุณต้องการออกจากเกมส์ใช่หรือไม่", "Confirm",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-         if (response == JOptionPane.NO_OPTION) {
-      
-    }   else if (response == JOptionPane.YES_OPTION) {
-            System.exit(0);
-    } 
-   
-    }//GEN-LAST:event_ExitActionPerformed
-  
-   
-    
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       new room1().setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void exitbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitbtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        JDialog.setDefaultLookAndFeelDecorated(true);
+        int response = JOptionPane.showConfirmDialog(null, "คุณต้องการออกจากเกมส์ใช่หรือไม่", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.NO_OPTION) {
+
+        } else if (response == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+
+    }//GEN-LAST:event_exitbtnActionPerformed
+
+    private void createroombtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createroombtnActionPerformed
+        new room1().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_createroombtnActionPerformed
+
+    private void joinroombtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinroombtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_joinroombtnActionPerformed
 
     private void profilebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilebtnActionPerformed
         new Profile().setVisible(true);
-        this.dispose();       
-      
+        this.dispose();
+
     }//GEN-LAST:event_profilebtnActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -266,21 +324,28 @@ PreparedStatement pst;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Lobbyform().setVisible(true);
+                try {
+                    new Lobbyform().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Lobbyform.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Exit;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton createroombtn;
+    private javax.swing.JButton exitbtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton joinroombtn;
+    private javax.swing.JList<String> listRoom;
     private javax.swing.JButton profilebtn;
-    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

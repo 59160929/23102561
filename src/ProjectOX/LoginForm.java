@@ -234,7 +234,7 @@ public class LoginForm extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(this, "ลงชื่อเข้าใจสำเร็จ");
 
-                SwapScreen();
+                ShowLobby();
             } else {
                 if (LoginService.checkNull(Usernamefield.getText(), String.valueOf(Passwordfield.getPassword())) == true) {
                     JOptionPane.showMessageDialog(null, "กรุณากรอกข้อมูลให้ครบ !");
@@ -250,7 +250,7 @@ public class LoginForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_loginActionPerformed
-    private void SwapScreen() {
+    private void ShowLobby() throws SQLException {
 
         setVisible(false);
         Lobbyform mf = new Lobbyform();

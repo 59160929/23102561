@@ -5,6 +5,10 @@
  */
 package ProjectOX;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Admin
@@ -84,7 +88,7 @@ public class Profile extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1030, 180);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProjectOX/tumblr_oiwytwMDKF1tf8vylo1_1280.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/BG-BluePink.png"))); // NOI18N
         jLabel3.setText("jLabel3");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(0, 180, 1030, 810);
@@ -104,10 +108,11 @@ public class Profile extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-new Lobbyform().setVisible(true);
-this.dispose();
-
-        // TODO add your handling code here:
+       
+       
+            this.dispose();
+            
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
